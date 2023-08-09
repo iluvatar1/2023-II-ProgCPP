@@ -4,3 +4,7 @@ Class codes for 2023-II
 
 Go to binder repo:
 [[https://mybinder.org/v2/gh/iluvatar1/ProgCPP-dev/HEAD][![Binder](https://mybinder.org/badge_logo.svg)]]
+
+Click here to go to the [[https://mybinder.org/v2/gh/iluvatar1/ProgCPP-dev/HEAD][Binder repo]]
+
+[[https://mybinder.org/v2/gh/iluvatar1/ProgCPP-dev/HEAD][[https://mybinder.org/badge_logo.svg][Launch Binder]]]
