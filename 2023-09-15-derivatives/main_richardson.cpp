@@ -21,7 +21,7 @@ int main(int argc, char **argv)
     fout << h << "\t" << fun(x) << "\t"
 	 << diff_f << "\t" << diff_c << "\t"
 	 << diff_rf << "\t" << diff_rc << "\t"
-	 << "\n";
+	 << "\n"; 
   }
   fout.close();
   

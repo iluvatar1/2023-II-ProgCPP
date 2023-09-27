@@ -1,5 +1,7 @@
 import numpy as np # para procesar los datos
 import matplotlib.pyplot as plt # dibujar
+#import seaborn as sns
+#sns.set_context("article")
 
 # leer los datos
 x, fx, ef, ec = np.genfromtxt('datos.txt', unpack=True)
@@ -11,6 +13,7 @@ ax.loglog(x, ec, '-s', label = 'Error central')
 ax.set_xlabel("$x$")
 ax.set_ylabel("% diff")
 ax.legend()
+plt.grid(True)
 
 # save figure
 plt.show()
