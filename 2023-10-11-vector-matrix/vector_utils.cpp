@@ -33,3 +33,29 @@ int argmax(const std::vector<double> & data)
   }
   return posmax;
 }
+
+void deriv_poly(const std::vector<double> & pcoeff,
+		std::vector<double> & dcoeff)
+{
+  for (int ii = 1; ii < pcoeff.size(); ii++) {
+    dcoeff[ii-1] = (ii)*pcoeff[ii];
+  }
+}
+
+double eval_poly(const std::vector<double> & pcoeff, double x)
+{
+  double suma = 0.0;
+  for(int ii = 0; ii < pcoeff.size(); ii++) {
+    suma += pcoeff[ii]*std::pow(x, ii);
+  }
+  return suma;
+}
+
+double eval_poly_deriv(const std::vector<double> & pcoeff, double x)
+{
+  std::vector<double> dcoeff(pcoeff.size() - 1);
+  deriv_poly(pcoeff, dcoeff);
+  return eval_poly(dcoeff, x);
+}
+
+

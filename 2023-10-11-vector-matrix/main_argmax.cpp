@@ -4,11 +4,9 @@
 
 int main(int argc, char **argv)
 {
-  std::cout.precision(15);
-  std::cout.setf(std::ios::scientific);
-
   // init data
-  int N = std::stoi(argv[1]);
+  //std::vector<double> x{1.0, 1.0, 1.0, 1.0};
+  int N = 4000;
   std::vector<double> x(N);
   // random numbers
   std::mt19937 gen(0);
@@ -16,10 +14,17 @@ int main(int argc, char **argv)
   for (auto & val: x) {
     val = dis(gen);
   }
+  //for (auto val: x) {
+  //  std::cout << val << " ";
+  // }
+  //std::cout << "\n";
 
   // process data
-  int idxmax = argmax(x);
-  std::cout << idxmax << "\t" << x[idxmax] << "\n";
+  std::cout.precision(15);
+  std::cout.setf(std::ios::scientific);
+  for(int p = 1; p <= 20; p++) {
+    std::cout << p << "\t" << pnorm(x, p) << "\n";
+  }
   
   return 0;
 }
