@@ -11,8 +11,10 @@ int main(int argc, char **argv) {
   std::map<std::string, double> p;
   p["T0"] = 0.0;
   p["TF"] = 10.8767;
-  p["DT"] = 0.1;
+  //p["DT"] = 0.1;
+  p["DT"] = 0.01;
   p["G"] = -9.81;
+  p["K"] = 220.987; // N/m
 
   // Force collider
   Collider collider(p);
