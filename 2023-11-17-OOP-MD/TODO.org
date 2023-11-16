@@ -1,0 +1,7 @@
+#+title: Todo
+
+- [ ] Add damping
+- [ ] Add left, right walls
+- [ ] Add top wall
+- [ ] Add collision with other particle
+- [ ] Think about more complex boundaries
