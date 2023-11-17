@@ -10,11 +10,15 @@ int main(int argc, char **argv) {
   // parameters
   std::map<std::string, double> p;
   p["T0"] = 0.0;
-  p["TF"] = 10.8767;
+  p["TF"] = 20.8767;
   //p["DT"] = 0.1;
   p["DT"] = 0.01;
   p["G"] = -9.81;
   p["K"] = 220.987; // N/m
+  p["B"] = 1.47; // 1/s
+  p["E"] = 0.8; // coefficient of restitution
+  p["LX"] = 5.7; // Position of right wall
+  p["LZ"] = 7.7; // Position of top wall
 
   // Force collider
   Collider collider(p);
@@ -23,11 +27,15 @@ int main(int argc, char **argv) {
   TimeIntegrator integrator(p["DT"]);
 
   // initial conditions and properties
+  bodies[0].R[0] = 2.987;
   bodies[0].R[2] = 0.987;
+  bodies[0].V[0] = 8.987;
+  bodies[0].V[2] = +3.987;
   bodies[0].rad  = 0.103;
   bodies[0].mass = 0.337;
   collider.computeForces(bodies); // force at t = 0
   integrator.startIntegration(bodies); // start integration algorithm
+  collider.applyConstraint(bodies);
   std::cout << p["T0"] << "\t" << bodies[0] << "\n";
 
   // Time iteration
@@ -35,6 +43,7 @@ int main(int argc, char **argv) {
   for(int ii = 1; ii < niter; ++ii) {
     collider.computeForces(bodies);
     integrator.timeStep(bodies);
+	collider.applyConstraint(bodies);
     double time = p["T0"] + ii*p["DT"];
     std::cout << time << "\t" << bodies[0] << "\n";
   }
