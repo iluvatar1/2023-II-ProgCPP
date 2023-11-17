@@ -5,7 +5,7 @@
 
 int main(int argc, char **argv) {
   std::vector<Particle> bodies;
-  bodies.resize(1); // only one particle for now
+  bodies.resize(2); // two particles
 
   // parameters
   std::map<std::string, double> p;
@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
   p["G"] = -9.81;
   p["K"] = 220.987; // N/m
   p["B"] = 1.47; // 1/s
-  p["E"] = 0.8; // coefficient of restitution
+  p["E"] = 0.99; // coefficient of restitution
   p["LX"] = 5.7; // Position of right wall
   p["LZ"] = 7.7; // Position of top wall
 
@@ -29,14 +29,22 @@ int main(int argc, char **argv) {
   // initial conditions and properties
   bodies[0].R[0] = 2.987;
   bodies[0].R[2] = 0.987;
-  bodies[0].V[0] = 8.987;
+  bodies[0].V[0] = -8.987;
   bodies[0].V[2] = +3.987;
-  bodies[0].rad  = 0.103;
+  bodies[0].rad  = 0.503;
   bodies[0].mass = 0.337;
+
+  bodies[1].R[0] = 3.987;
+  bodies[1].R[2] = 0.987;
+  bodies[1].V[0] = +8.987;
+  bodies[1].V[2] = +3.987;
+  bodies[1].rad  = 0.503;
+  bodies[1].mass = 0.337;
+
   collider.computeForces(bodies); // force at t = 0
   integrator.startIntegration(bodies); // start integration algorithm
   collider.applyConstraint(bodies);
-  std::cout << p["T0"] << "\t" << bodies[0] << "\n";
+  std::cout << p["T0"] << "\t" << bodies[0] << "\t" << bodies[1] << "\n";
 
   // Time iteration
   const int niter = int((p["TF"] - p["T0"])/p["DT"]);
@@ -45,7 +53,7 @@ int main(int argc, char **argv) {
     integrator.timeStep(bodies);
 	collider.applyConstraint(bodies);
     double time = p["T0"] + ii*p["DT"];
-    std::cout << time << "\t" << bodies[0] << "\n";
+    std::cout << time << "\t" << bodies[0] << "\t" << bodies[1] << "\n";
   }
 
   return 0;

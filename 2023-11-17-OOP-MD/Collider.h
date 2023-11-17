@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <cmath>
 
 class Collider {
   std::map<std::string, double> params; // parameters to compute the forces
@@ -24,6 +25,28 @@ class Collider {
         //     p.F[2] -= params["B"]*p.mass*p.V[2]; // -b m v
         // }
       }
+
+      // sum of pairwise forces N^2 complexity
+      const int N = parray.size();
+      for(int ii = 0; ii < N; ++ii) {
+        for(int jj = ii+1; jj < N; ++jj) { // N(N-1)/2
+          double Rij[3] = {0,0,0}; // goes from j to i
+          Rij[0] = parray[ii].R[0] - parray[jj].R[0];
+          Rij[1] = parray[ii].R[1] - parray[jj].R[1];
+          Rij[2] = parray[ii].R[2] - parray[jj].R[2];
+          double Rijnorm = std::sqrt(Rij[0]*Rij[0] + Rij[1]*Rij[1] + Rij[2]*Rij[2]);
+          double deltaij = parray[ii].rad + parray[jj].rad - Rijnorm;
+          if (deltaij > 0) {
+            parray[ii].F[0] += params["K"]*deltaij*Rij[0]/Rijnorm;
+            parray[ii].F[1] += params["K"]*deltaij*Rij[1]/Rijnorm;
+            parray[ii].F[2] += params["K"]*deltaij*Rij[2]/Rijnorm;
+            parray[jj].F[0] += -params["K"]*deltaij*Rij[0]/Rijnorm;
+            parray[jj].F[1] += -params["K"]*deltaij*Rij[1]/Rijnorm;
+            parray[jj].F[2] += -params["K"]*deltaij*Rij[2]/Rijnorm;
+          }
+        }
+      }
+
     }
 
     template<class particle_array_t>
