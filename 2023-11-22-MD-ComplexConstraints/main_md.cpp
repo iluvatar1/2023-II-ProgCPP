@@ -2,6 +2,9 @@
 #include "Integrator.h"
 #include "Collider.h"
 #include <vector>
+#include <fstream>
+
+void print_csv(int iter, const std::vector<Particle> & bodies);
 
 int main(int argc, char **argv) {
   std::vector<Particle> bodies;
@@ -28,11 +31,11 @@ int main(int argc, char **argv) {
   TimeIntegrator integrator(p["DT"]);
 
   // initial conditions and properties
-  bodies[0].R[0] = 2.987;
+  bodies[0].R[0] = -2.987;
   bodies[0].R[2] = 0.987;
   bodies[0].V[0] = 2.654; //-8.987;
   bodies[0].V[2] = 3.0; //+3.987;
-  bodies[0].rad  = 0.503;
+  bodies[0].rad  = 1.503;
   bodies[0].mass = 0.337;
 
   bodies[1].R[0] = 3.987;
@@ -46,19 +49,36 @@ int main(int argc, char **argv) {
   collider.computeForces(bodies); // force at t = 0
   integrator.startIntegration(bodies); // start integration algorithm
   collider.applyConstraint(bodies);
-  std::cout << p["T0"] << "\t" << bodies[0] << "\t" << bodies[1] << "\n";
+  //std::cout << p["T0"] << "\t" << bodies[0] << "\t" << bodies[1] << "\n";
   //std::cout << p["T0"] << "\t" << bodies[0] << "\n";
+  print_csv(0, bodies);
 
   // Time iteration
+  const int NPRINT = 10;
   const int niter = int((p["TF"] - p["T0"])/p["DT"]);
   for(int ii = 1; ii < niter; ++ii) {
     collider.computeForces(bodies);
     integrator.timeStep(bodies);
 	collider.applyConstraint(bodies);
     double time = p["T0"] + ii*p["DT"];
-    std::cout << time << "\t" << bodies[0] << "\t" << bodies[1] << "\n";
+    //std::cout << time << "\t" << bodies[0] << "\t" << bodies[1] << "\n";
     //std::cout << time << "\t" << bodies[0] << "\n";
+	if(ii%NPRINT==0) print_csv(ii, bodies);
   }
 
   return 0;
+}
+
+void print_csv(int iter, const std::vector<Particle> & bodies)
+{
+	// create filnema including iter in the name
+	std::string filename = "DATA/data-" + std::to_string(iter) + ".csv";
+	std::ofstream fout(filename);
+	fout << "x,y,z,vx,vy,vz,rad\n";
+	for (const auto & body : bodies) {
+		fout << body.R[0] << "," << body.R[1] << "," << body.R[2] << ","
+			<< body.V[0] << "," << body.V[1] << "," << body.V[2] << ","
+			<< body.rad << "\n";
+	}
+	fout.close();
 }
