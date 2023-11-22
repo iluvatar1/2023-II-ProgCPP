@@ -1,0 +1,6 @@
+#+title: Todo
+
+- [ ] Add complex boundary : inside sphere
+- [ ] Add active/passive balls
+- [ ] Visualize system in paraview
+- [ ] Start opengl visualization
