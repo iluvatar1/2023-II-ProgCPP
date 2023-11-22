@@ -5,6 +5,7 @@
 struct Particle {
     std::vector<double> R{0,0,0}, V{0,0,0}, F{0,0,0};
     double mass{0}, rad{0};
+    bool active{true};
     void print(void);
     // overload the cout operator: friend declared to acces possible private data
     // see: https://www.learncpp.com/cpp-tutorial/overloading-the-io-operators/

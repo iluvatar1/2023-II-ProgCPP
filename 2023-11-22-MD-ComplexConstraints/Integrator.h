@@ -10,19 +10,21 @@ class TimeIntegrator{
       // this function moves the initial velocity to -dt/2
       // V = V - A dt/2 = V - F dt /2m
       for (auto & p : parray) {
-          for (int ii = 0; ii < 3; ++ii) {
-              p.V[ii] = p.V[ii] - p.F[ii]*dt/(2*p.mass);
-          }
+        if (p.active == false) continue;
+        for (int ii = 0; ii < 3; ++ii) {
+          p.V[ii] = p.V[ii] - p.F[ii]*dt/(2*p.mass);
+        }
       }
   }
 
   template <class particle_array_t>
       void timeStep(particle_array_t & parray) {
       for (auto & p : parray) {
-          for (int ii = 0; ii < 3; ++ii) {
-              p.V[ii] = p.V[ii] + p.F[ii]*dt/(p.mass);
-              p.R[ii] = p.R[ii] + p.V[ii]*dt;
-          }
+        if (p.active == false) continue;
+        for (int ii = 0; ii < 3; ++ii) {
+          p.V[ii] = p.V[ii] + p.F[ii]*dt/(p.mass);
+          p.R[ii] = p.R[ii] + p.V[ii]*dt;
+        }
       }
   }
 };
