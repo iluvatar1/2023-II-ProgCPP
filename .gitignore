@@ -4,3 +4,4 @@
 a.out*
 *.x
 *.log
+*DATA/
