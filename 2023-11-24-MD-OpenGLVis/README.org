@@ -1,0 +1,5 @@
+#+title: Readme
+- [ ] Merge Integrator, Collider, etc with visualization, use plane walls
+- [ ] Add two fixed particles
+- [ ] Add more particles with random positions and velocities
+- [ ] Add a cannon of particles
